@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               child: Text(
                 'Recommendation restaurant for you!',
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           ),

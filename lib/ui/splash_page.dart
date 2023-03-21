@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Center(
         child: Text(
           'RESTAURANT APP',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
     );

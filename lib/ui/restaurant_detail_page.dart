@@ -51,14 +51,14 @@ class RestaurantDetailPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(restaurant.name, style: Theme.of(context).textTheme.headline6),
+          Text(restaurant.name, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 4),
           Row(
             children: [
               const Icon(Icons.location_on),
               Text(
                 restaurant.city,
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ],
           ),
@@ -68,23 +68,23 @@ class RestaurantDetailPage extends StatelessWidget {
               const Icon(Icons.star),
               Text(
                 '${restaurant.rating}',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text('Description', style: Theme.of(context).textTheme.subtitle2),
+          Text('Description', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 4),
           Text(
             restaurant.description,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(height: 16),
-          Text('Foods', style: Theme.of(context).textTheme.subtitle2),
+          Text('Foods', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 4),
           _buildFoods(),
           const SizedBox(height: 16),
-          Text('Drinks', style: Theme.of(context).textTheme.subtitle2),
+          Text('Drinks', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 4),
           _buildDrinks(),
           const SizedBox(height: 16),
