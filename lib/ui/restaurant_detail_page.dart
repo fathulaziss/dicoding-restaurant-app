@@ -53,9 +53,24 @@ class RestaurantDetailPage extends StatelessWidget {
         children: [
           Text(restaurant.name, style: Theme.of(context).textTheme.headline6),
           const SizedBox(height: 4),
-          Text(
-            restaurant.city,
-            style: Theme.of(context).textTheme.subtitle1,
+          Row(
+            children: [
+              const Icon(Icons.location_on),
+              Text(
+                restaurant.city,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const Icon(Icons.star),
+              Text(
+                '${restaurant.rating}',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Text('Description', style: Theme.of(context).textTheme.subtitle2),
