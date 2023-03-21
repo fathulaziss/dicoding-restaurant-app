@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:dicoding_restaurant_app/models/drink_model.dart';
+import 'package:dicoding_restaurant_app/models/food_model.dart';
+import 'package:dicoding_restaurant_app/models/menu_model.dart';
+
 class RestaurantModel {
   RestaurantModel({
     required this.id,
@@ -22,8 +26,8 @@ class RestaurantModel {
             ? double.parse(restaurant['rating'].toString())
             : 0,
         menus: restaurant['menus'] != null
-            ? Menus.fromJson(restaurant['menus'])
-            : Menus(drinks: <Drinks>[], foods: <Foods>[]),
+            ? MenuModel.fromJson(restaurant['menus'])
+            : MenuModel(drinks: <DrinkModel>[], foods: <FoodModel>[]),
       );
 
   final String id;
@@ -32,41 +36,7 @@ class RestaurantModel {
   final String pictureId;
   final String city;
   final double rating;
-  final Menus menus;
-}
-
-class Menus {
-  Menus({required this.drinks, required this.foods});
-
-  factory Menus.fromJson(Map<String, dynamic> menu) => Menus(
-        drinks: menu['drinks'] != null
-            ? (menu['drinks'] as List).map((e) => Drinks.fromJson(e)).toList()
-            : <Drinks>[],
-        foods: menu['foods'] != null
-            ? (menu['foods'] as List).map((e) => Foods.fromJson(e)).toList()
-            : <Foods>[],
-      );
-
-  final List<Foods> foods;
-  final List<Drinks> drinks;
-}
-
-class Foods {
-  Foods({required this.name});
-
-  factory Foods.fromJson(Map<String, dynamic> food) =>
-      Foods(name: food['name'] ?? '');
-
-  final String name;
-}
-
-class Drinks {
-  Drinks({required this.name});
-
-  factory Drinks.fromJson(Map<String, dynamic> drink) =>
-      Drinks(name: drink['name'] ?? '');
-
-  final String name;
+  final MenuModel menus;
 }
 
 List<RestaurantModel> parseRestaurant(String? json) {
