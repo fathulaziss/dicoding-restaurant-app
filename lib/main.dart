@@ -1,6 +1,6 @@
 // ignore_for_file: cast_nullable_to_non_nullable
 
-import 'package:dicoding_restaurant_app/models/restaurant_model.dart';
+import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
 import 'package:dicoding_restaurant_app/ui/home_page.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:dicoding_restaurant_app/ui/splash_page.dart';

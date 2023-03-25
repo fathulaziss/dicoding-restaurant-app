@@ -1,5 +1,8 @@
-import 'package:dicoding_restaurant_app/models/restaurant_model.dart';
+import 'package:dicoding_restaurant_app/data/api/api_service.dart';
+import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
+import 'package:dicoding_restaurant_app/data/provider/restaurant_detail_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
   const RestaurantDetailPage({
@@ -13,21 +16,57 @@ class RestaurantDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Restaurant Detail')),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildRestaurantPicture(context),
-            _buildRestaurantInfo(context),
-          ],
+    return ChangeNotifierProvider<RestaurantDetailProvider>(
+      create: (context) => RestaurantDetailProvider(
+        apiService: ApiService(),
+        restaurantId: restaurant.id,
+      ),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Restaurant Detail')),
+        body: Consumer<RestaurantDetailProvider>(
+          builder: (context, state, child) {
+            if (state.state == ResultState.loading) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                ),
+              );
+            } else if (state.state == ResultState.hasData) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildRestaurantPicture(context, state.result.restaurant!),
+                    _buildRestaurantInfo(context, state.result.restaurant!),
+                  ],
+                ),
+              );
+            } else if (state.state == ResultState.noData) {
+              return Center(child: Text(state.message));
+            } else if (state.state == ResultState.error) {
+              return Center(child: Text(state.message));
+            } else {
+              return const Center(child: Text(''));
+            }
+          },
         ),
+        // body: SingleChildScrollView(
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       _buildRestaurantPicture(context),
+        //       _buildRestaurantInfo(context),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
 
-  Container _buildRestaurantPicture(BuildContext context) {
+  Widget _buildRestaurantPicture(
+    BuildContext context,
+    RestaurantModel restaurant,
+  ) {
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height / 3,
@@ -38,14 +77,18 @@ class RestaurantDetailPage extends StatelessWidget {
           bottomRight: Radius.circular(16),
         ),
         image: DecorationImage(
-          image: NetworkImage(restaurant.pictureId),
+          image:
+              NetworkImage('${ApiService().imageUrl}${restaurant.pictureId}'),
           fit: BoxFit.cover,
         ),
       ),
     );
   }
 
-  Widget _buildRestaurantInfo(BuildContext context) {
+  Widget _buildRestaurantInfo(
+    BuildContext context,
+    RestaurantModel restaurant,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -82,18 +125,18 @@ class RestaurantDetailPage extends StatelessWidget {
           const SizedBox(height: 16),
           Text('Foods', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 4),
-          _buildFoods(),
+          _buildFoods(restaurant),
           const SizedBox(height: 16),
           Text('Drinks', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 4),
-          _buildDrinks(),
+          _buildDrinks(restaurant),
           const SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  SizedBox _buildDrinks() {
+  SizedBox _buildDrinks(RestaurantModel restaurant) {
     return SizedBox(
       width: double.infinity,
       height: 45,
@@ -116,7 +159,7 @@ class RestaurantDetailPage extends StatelessWidget {
     );
   }
 
-  SizedBox _buildFoods() {
+  SizedBox _buildFoods(RestaurantModel restaurant) {
     return SizedBox(
       width: double.infinity,
       height: 45,

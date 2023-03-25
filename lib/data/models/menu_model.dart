@@ -1,5 +1,5 @@
-import 'package:dicoding_restaurant_app/models/drink_model.dart';
-import 'package:dicoding_restaurant_app/models/food_model.dart';
+import 'package:dicoding_restaurant_app/data/models/drink_model.dart';
+import 'package:dicoding_restaurant_app/data/models/food_model.dart';
 
 class MenuModel {
   MenuModel({required this.drinks, required this.foods});

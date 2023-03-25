@@ -1,4 +1,5 @@
-import 'package:dicoding_restaurant_app/models/restaurant_model.dart';
+import 'package:dicoding_restaurant_app/data/api/api_service.dart';
+import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class RestaurantWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Image.network(
-        restaurant.pictureId,
+        '${ApiService().imageUrl}${restaurant.pictureId}',
         width: 100,
         fit: BoxFit.cover,
       ),

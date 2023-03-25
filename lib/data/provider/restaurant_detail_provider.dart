@@ -1,0 +1,55 @@
+import 'dart:io';
+
+import 'package:dicoding_restaurant_app/data/api/api_service.dart';
+import 'package:dicoding_restaurant_app/data/models/restaurant_detail_result_model.dart';
+import 'package:flutter/foundation.dart';
+
+class RestaurantDetailProvider extends ChangeNotifier {
+  RestaurantDetailProvider({
+    required this.apiService,
+    required this.restaurantId,
+  }) {
+    _getRestaurantDetail(restaurantId);
+  }
+
+  final ApiService apiService;
+  final String restaurantId;
+  late RestaurantDetailResultModel _restaurantDetailResult;
+
+  late ResultState _state;
+  String _message = '';
+
+  String get message => _message;
+
+  RestaurantDetailResultModel get result => _restaurantDetailResult;
+
+  ResultState get state => _state;
+
+  Future<dynamic> _getRestaurantDetail(String id) async {
+    try {
+      _state = ResultState.loading;
+      notifyListeners();
+      final restaurantDetail = await apiService.getRestaurantDetail(id);
+      if (restaurantDetail.restaurant == null) {
+        _state = ResultState.noData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _state = ResultState.hasData;
+        notifyListeners();
+        return _restaurantDetailResult = restaurantDetail;
+      }
+    } on SocketException catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      if (e.toString().contains('Failed host lookup')) {
+        _message = 'Error --> No Internet Connection';
+      }
+      return _message = 'Error --> $e';
+    } catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
+}
