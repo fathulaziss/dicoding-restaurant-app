@@ -35,11 +35,13 @@ class RestaurantSearchProvider extends ChangeNotifier {
       }
     } on SocketException catch (e) {
       _state = ResultState.error;
-      notifyListeners();
       if (e.toString().contains('Failed host lookup')) {
         _message = 'Error --> No Internet Connection';
+      } else {
+        _message = 'Error --> $e';
       }
-      return _message = 'Error --> $e';
+      notifyListeners();
+      return _message;
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
