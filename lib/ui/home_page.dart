@@ -1,5 +1,6 @@
 import 'package:dicoding_restaurant_app/data/api/api_service.dart';
 import 'package:dicoding_restaurant_app/data/provider/restaurant_provider.dart';
+import 'package:dicoding_restaurant_app/ui/restaurant_search_page.dart';
 import 'package:dicoding_restaurant_app/widgets/restaurant_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Restaurant App')),
+      appBar: AppBar(
+        title: const Text('Restaurant App'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RestaurantSearchPage.routeName);
+            },
+            icon: const Icon(Icons.search),
+          )
+        ],
+      ),
       body: Column(
         children: [
           Padding(

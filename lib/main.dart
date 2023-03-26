@@ -3,6 +3,7 @@
 import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
 import 'package:dicoding_restaurant_app/ui/home_page.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:dicoding_restaurant_app/ui/restaurant_search_page.dart';
 import 'package:dicoding_restaurant_app/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
               restaurant:
                   ModalRoute.of(context)?.settings.arguments as RestaurantModel,
             ),
+        RestaurantSearchPage.routeName: (context) =>
+            const RestaurantSearchPage(),
       },
     );
   }

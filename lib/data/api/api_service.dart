@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dicoding_restaurant_app/data/models/restaurant_detail_result_model.dart';
 import 'package:dicoding_restaurant_app/data/models/restaurant_result_model.dart';
+import 'package:dicoding_restaurant_app/data/models/restaurant_search_result_model.dart';
 import 'package:http/http.dart' as http;
 
 enum ResultState { loading, noData, hasData, error }
@@ -29,6 +30,16 @@ class ApiService {
       return RestaurantDetailResultModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load restaurant detail');
+    }
+  }
+
+  Future<RestaurantSearchResultModel> getRestaurantSearch(String query) async {
+    final response = await http.get(Uri.parse('${_baseUrl}search?q=$query'));
+
+    if (response.statusCode == 200) {
+      return RestaurantSearchResultModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to search restaurant');
     }
   }
 }
