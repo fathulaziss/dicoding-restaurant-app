@@ -5,8 +5,6 @@ import 'package:dicoding_restaurant_app/data/models/restaurant_result_model.dart
 import 'package:dicoding_restaurant_app/data/models/restaurant_search_result_model.dart';
 import 'package:http/http.dart' as http;
 
-enum ResultState { loading, noData, hasData, error }
-
 class ApiService {
   static const String _baseUrl = 'https://restaurant-api.dicoding.dev/';
   static const String _imageUrl = '${_baseUrl}images/large/';

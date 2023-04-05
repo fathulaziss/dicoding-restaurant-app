@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dicoding_restaurant_app/data/api/api_service.dart';
 import 'package:dicoding_restaurant_app/data/models/restaurant_search_result_model.dart';
+import 'package:dicoding_restaurant_app/utils/result_state.dart';
 import 'package:flutter/foundation.dart';
 
 class RestaurantSearchProvider extends ChangeNotifier {

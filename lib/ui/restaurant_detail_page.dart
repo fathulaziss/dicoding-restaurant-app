@@ -1,6 +1,7 @@
 import 'package:dicoding_restaurant_app/data/api/api_service.dart';
 import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
 import 'package:dicoding_restaurant_app/data/provider/restaurant_detail_provider.dart';
+import 'package:dicoding_restaurant_app/utils/result_state.dart';
 import 'package:dicoding_restaurant_app/widgets/restaurant_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
