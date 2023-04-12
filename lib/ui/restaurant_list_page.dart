@@ -1,5 +1,5 @@
-import 'package:dicoding_restaurant_app/data/api/api_service.dart';
 import 'package:dicoding_restaurant_app/data/provider/restaurant_provider.dart';
+import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_search_page.dart';
 import 'package:dicoding_restaurant_app/utils/result_state.dart';
 import 'package:dicoding_restaurant_app/widgets/restaurant_widget.dart';
@@ -20,6 +20,8 @@ class RestaurantListPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, RestaurantSearchPage.routeName);
+              Provider.of<RestaurantProvider>(context, listen: false)
+                  .getRestaurantSearch('');
             },
             icon: const Icon(Icons.search),
           )
@@ -37,10 +39,7 @@ class RestaurantListPage extends StatelessWidget {
               ),
             ),
           ),
-          ChangeNotifierProvider<RestaurantProvider>(
-            create: (_) => RestaurantProvider(apiService: ApiService()),
-            child: Expanded(child: _buildRestaurantList(context)),
-          ),
+          Expanded(child: _buildRestaurantList(context)),
         ],
       ),
     );
@@ -48,26 +47,37 @@ class RestaurantListPage extends StatelessWidget {
 
   Widget _buildRestaurantList(BuildContext context) {
     return Consumer<RestaurantProvider>(
-      builder: (context, state, child) {
-        if (state.state == ResultState.loading) {
+      builder: (context, restaurantProvider, child) {
+        if (restaurantProvider.state == ResultState.loading) {
           return Center(
             child: CircularProgressIndicator(
               color: Theme.of(context).primaryColor,
             ),
           );
-        } else if (state.state == ResultState.hasData) {
+        } else if (restaurantProvider.state == ResultState.hasData) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: state.result.restaurants.length,
+            itemCount: restaurantProvider.restaurant.restaurants.length,
             itemBuilder: (context, index) {
-              final restaurants = state.result.restaurants[index];
-              return RestaurantWidget(restaurant: restaurants);
+              final restaurant =
+                  restaurantProvider.restaurant.restaurants[index];
+              return RestaurantWidget(
+                restaurant: restaurant,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    RestaurantDetailPage.routeName,
+                    arguments: restaurant,
+                  );
+                  restaurantProvider.getRestaurantDetail(restaurant.id);
+                },
+              );
             },
           );
-        } else if (state.state == ResultState.noData) {
-          return Center(child: Text(state.message));
-        } else if (state.state == ResultState.error) {
-          return Center(child: Text(state.message));
+        } else if (restaurantProvider.state == ResultState.noData) {
+          return Center(child: Text(restaurantProvider.message));
+        } else if (restaurantProvider.state == ResultState.error) {
+          return Center(child: Text(restaurantProvider.message));
         } else {
           return const Center(child: Text(''));
         }

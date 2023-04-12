@@ -5,4 +5,8 @@ class CategoryModel {
       CategoryModel(name: json['name'] ?? '');
 
   final String name;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+      };
 }

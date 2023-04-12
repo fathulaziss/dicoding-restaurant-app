@@ -15,4 +15,10 @@ class CustomerReviewModel {
   final String name;
   final String review;
   final String date;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'review': review,
+        'date': date,
+      };
 }

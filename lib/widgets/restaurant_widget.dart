@@ -1,26 +1,21 @@
 import 'package:dicoding_restaurant_app/data/api/api_service.dart';
 import 'package:dicoding_restaurant_app/data/models/restaurant_model.dart';
-import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantWidget extends StatelessWidget {
   const RestaurantWidget({
     Key? key,
     required this.restaurant,
+    required this.onTap,
   }) : super(key: key);
 
   final RestaurantModel restaurant;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          RestaurantDetailPage.routeName,
-          arguments: restaurant,
-        );
-      },
+      onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       leading: _buildRestaurantPicture(),
       subtitle: Column(

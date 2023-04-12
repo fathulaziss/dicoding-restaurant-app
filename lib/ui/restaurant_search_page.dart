@@ -1,5 +1,5 @@
-import 'package:dicoding_restaurant_app/data/api/api_service.dart';
-import 'package:dicoding_restaurant_app/data/provider/restaurant_search_provider.dart';
+import 'package:dicoding_restaurant_app/data/provider/restaurant_provider.dart';
+import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:dicoding_restaurant_app/utils/result_state.dart';
 import 'package:dicoding_restaurant_app/widgets/custom_search_widget.dart';
 import 'package:dicoding_restaurant_app/widgets/restaurant_widget.dart';
@@ -26,51 +26,59 @@ class _RestaurantSearchPageState extends State<RestaurantSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RestaurantSearchProvider>(
-      create: (context) => RestaurantSearchProvider(apiService: ApiService()),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Restaurant Search')),
-        body: Column(
-          children: [
-            Consumer<RestaurantSearchProvider>(
-              builder: (context, state, child) {
-                return CustomSearchWidget(
-                  controller: controllerSearch,
-                  onSubmitted: (value) {
-                    state.getRestaurantSearch(value);
-                  },
-                );
-              },
-            ),
-            Expanded(child: _buildRestaurantList(context)),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Restaurant Search')),
+      body: Column(
+        children: [
+          Consumer<RestaurantProvider>(
+            builder: (context, restaurantProvider, child) {
+              return CustomSearchWidget(
+                controller: controllerSearch,
+                onSubmitted: (value) {
+                  restaurantProvider.getRestaurantSearch(value);
+                },
+              );
+            },
+          ),
+          Expanded(child: _buildRestaurantList(context)),
+        ],
       ),
     );
   }
 
   Widget _buildRestaurantList(BuildContext context) {
-    return Consumer<RestaurantSearchProvider>(
-      builder: (context, state, child) {
-        if (state.state == ResultState.loading) {
+    return Consumer<RestaurantProvider>(
+      builder: (context, restaurantProvider, child) {
+        if (restaurantProvider.state == ResultState.loading) {
           return Center(
             child: CircularProgressIndicator(
               color: Theme.of(context).primaryColor,
             ),
           );
-        } else if (state.state == ResultState.hasData) {
+        } else if (restaurantProvider.state == ResultState.hasData) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: state.result.restaurants.length,
+            itemCount: restaurantProvider.restaurantSearch.restaurants.length,
             itemBuilder: (context, index) {
-              final restaurants = state.result.restaurants[index];
-              return RestaurantWidget(restaurant: restaurants);
+              final restaurant =
+                  restaurantProvider.restaurantSearch.restaurants[index];
+              return RestaurantWidget(
+                restaurant: restaurant,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    RestaurantDetailPage.routeName,
+                    arguments: restaurant,
+                  );
+                  restaurantProvider.getRestaurantDetail(restaurant.id);
+                },
+              );
             },
           );
-        } else if (state.state == ResultState.noData) {
-          return Center(child: Text(state.message));
-        } else if (state.state == ResultState.error) {
-          return Center(child: Text(state.message));
+        } else if (restaurantProvider.state == ResultState.noData) {
+          return Center(child: Text(restaurantProvider.message));
+        } else if (restaurantProvider.state == ResultState.error) {
+          return Center(child: Text(restaurantProvider.message));
         } else {
           return const Center(child: Text(''));
         }
