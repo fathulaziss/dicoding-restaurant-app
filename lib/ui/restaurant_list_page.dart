@@ -69,7 +69,6 @@ class RestaurantListPage extends StatelessWidget {
                     RestaurantDetailPage.routeName,
                     arguments: restaurant,
                   );
-                  restaurantProvider.getRestaurantDetail(restaurant.id);
                 },
               );
             },

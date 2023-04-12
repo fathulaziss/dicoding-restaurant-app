@@ -20,12 +20,16 @@ class DatabaseProvider extends ChangeNotifier {
   List<RestaurantModel> get favorites => _favorites;
 
   Future<void> _getFavorites() async {
+    _state = ResultState.loading;
+    notifyListeners();
     _favorites = await databaseHelper.getFavorites();
     if (_favorites.isNotEmpty) {
       _state = ResultState.hasData;
+      notifyListeners();
     } else {
       _state = ResultState.noData;
       _message = 'Empty Data';
+      notifyListeners();
     }
     notifyListeners();
   }

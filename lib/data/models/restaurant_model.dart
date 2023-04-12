@@ -89,7 +89,7 @@ class RestaurantModel {
         'pictureId': pictureId,
         'city': city,
         'categories': categories,
-        'menus': menus,
+        'menus': menus.toJson(),
         'rating': rating,
         'customerReviews': customerReviews,
       };
@@ -102,7 +102,7 @@ class RestaurantModel {
         'city': city,
         'categories':
             jsonEncode(List<String>.from(categories.map((e) => e.toJson()))),
-        'menus': jsonEncode(menus.toMapDatabase()),
+        'menus': jsonEncode(menus.toJson()),
         'rating': rating,
         'customerReviews': jsonEncode(
           List<String>.from(customerReviews.map((e) => e.toJson())),

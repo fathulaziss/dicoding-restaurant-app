@@ -18,7 +18,7 @@ class MenuModel {
   final List<FoodModel> foods;
   final List<DrinkModel> drinks;
 
-  Map<String, dynamic> toMapDatabase() => {
+  Map<String, dynamic> toJson() => {
         'foods': List<String>.from(foods.map((e) => e.toJson())),
         'drinks': List<String>.from(drinks.map((e) => e.toJson())),
       };

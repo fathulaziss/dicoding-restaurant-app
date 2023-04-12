@@ -1,6 +1,8 @@
+import 'package:dicoding_restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_favorite_page.dart';
 import 'package:dicoding_restaurant_app/ui/restaurant_list_page.dart';
 import 'package:dicoding_restaurant_app/ui/setting_page.dart';
+import 'package:dicoding_restaurant_app/utils/notification_helper.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +16,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
+
+  final _notificationHelper = NotificationHelper();
 
   final List<Widget> _listWidget = [
     const RestaurantListPage(),
@@ -40,6 +44,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _bottomNavIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 
   @override
