@@ -10,9 +10,16 @@ class ApiService {
   static const String _imageUrl = '${_baseUrl}images/large/';
 
   String get imageUrl => _imageUrl;
+  String get baseUrl => _baseUrl;
 
-  Future<RestaurantResultModel> getRestaurant() async {
-    final response = await http.get(Uri.parse('${_baseUrl}list'));
+  Future<RestaurantResultModel> getRestaurant({http.Client? client}) async {
+    final http.Response response;
+
+    if (client != null) {
+      response = await client.get(Uri.parse('${_baseUrl}list'));
+    } else {
+      response = await http.get(Uri.parse('${_baseUrl}list'));
+    }
 
     if (response.statusCode == 200) {
       return RestaurantResultModel.fromJson(json.decode(response.body));
